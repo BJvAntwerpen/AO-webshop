@@ -15,8 +15,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test', function() {
-	return view('test');
+Route::get('/product', function() {
+	return view('product_details');
+});
+
+Route::get('/cart', function() {
+	return view('shopping_cart');
+});
+
+Route::get('/category', function() {
+	return view('product_categories');
+});
+
+Route::get('/products', function() {
+	return view('products');
 });
 
 Auth::routes();
