@@ -23,13 +23,9 @@ Route::get('/cart', function() {
 	return view('shopping_cart');
 });
 
-Route::get('/category', function() {
-	return view('categories');
-});
+Route::get('/category', 'CategoryController@index');
 
-Route::get('/products', function() {
-	return view('products');
-});
+Route::get('/products/{id}', 'ProductController@index');
 
 Auth::routes();
 

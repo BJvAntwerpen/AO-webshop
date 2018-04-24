@@ -10,20 +10,23 @@
                 <div class="card-body">
                     <div class="container">
                         <div class="row justify-content-center">
+                            @foreach ($categories as $category)
+                            @if ($category->category_id % 2 != 0)
                             <div class="col-md-6">
                                 <ul>
-                                    <li><a href="{{ url('/products') }}">Category 1</a></li>
-                                    <li><a href="{{ url('/products') }}">Category 2</a></li>
-                                    <li><a href="{{ url('/products') }}">Category 3</a></li>
+                                    <li><a href="{{ url('/products/' . $category->category_id) }}">{{$category->category_name}}</a></li>
                                 </ul>
                             </div>
+                            @endif
+
+                            @if ($category->category_id % 2 == 0)
                             <div class="col-md-6">
                                 <ul>
-                                    <li><a href="{{ url('/products') }}">Category 4</a></li>
-                                    <li><a href="{{ url('/products') }}">Category 5</a></li>
-                                    <li><a href="{{ url('/products') }}">Category 6</a></li>
+                                    <li><a href="{{ url('/products') }}">{{$category->category_name}}</a></li>
                                 </ul>
                             </div>
+                            @endif
+                            @endforeach
                         </div>
                     </div>
                 </div>

@@ -15,6 +15,7 @@
                     @endif
 
                     You are logged in!
+                    <a href="{{ url('/category') }}">Go to the webshop</a>
                 </div>
             </div>
         </div>

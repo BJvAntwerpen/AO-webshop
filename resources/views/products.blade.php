@@ -6,7 +6,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Products from category X</div>
-
+                {{$products}}
                 <div class="card-body">
                     <div class="container">
                         <div class="row justify-content-center">
@@ -27,6 +27,7 @@
                         </div>
                     </div>
                 </div>
+                {{$productCategory}}
             </div>
         </div>
     </div>
