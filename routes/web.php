@@ -24,7 +24,7 @@ Route::get('/cart', function() {
 });
 
 Route::get('/category', function() {
-	return view('product_categories');
+	return view('categories');
 });
 
 Route::get('/products', function() {
