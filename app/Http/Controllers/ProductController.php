@@ -24,8 +24,12 @@ class ProductController extends Controller
      */
     public function index($id)
     {
-    	$productCategory = DB::table('products_categories')->where('category_id', $id)->get();
-    	$products = DB::table('products')->get();
-        return view('products', ['products' => $products, 'productCategory' => $productCategory]);
+    	$products = array();
+    	$productCategories = DB::table('products_categories')->where('category_id', $id)->get();
+    	foreach ($productCategories as $productCategory) {
+    		$product = DB::table('products')->where('product_id', $productCategory->product_id)->get();
+    		array_push($products, $product);
+    	}
+        return view('products', ['products' => $products, 'productCategories' => $productCategories]);
     }
 }

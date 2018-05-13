@@ -27,7 +27,7 @@
                         </div>
                     </div>
                 </div>
-                {{$productCategory}}
+                {{$productCategories}}
             </div>
         </div>
     </div>

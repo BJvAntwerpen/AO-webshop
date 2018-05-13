@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\CategoryModel;
 
 class CategoryController extends Controller
 {
@@ -18,13 +19,14 @@ class CategoryController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Show the categories page.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-    	$categories = DB::table('categories')->get();
+        $CategoryModel = new CategoryModel;
+    	$categories = $CategoryModel->getAll();
         return view('categories', ['categories' => $categories]);
     }
 }

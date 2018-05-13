@@ -11,21 +11,11 @@
                     <div class="container">
                         <div class="row justify-content-center">
                             @foreach ($categories as $category)
-                            @if ($category->category_id % 2 != 0)
                             <div class="col-md-6">
                                 <ul>
                                     <li><a href="{{ url('/products/' . $category->category_id) }}">{{$category->category_name}}</a></li>
                                 </ul>
                             </div>
-                            @endif
-
-                            @if ($category->category_id % 2 == 0)
-                            <div class="col-md-6">
-                                <ul>
-                                    <li><a href="{{ url('/products') }}">{{$category->category_name}}</a></li>
-                                </ul>
-                            </div>
-                            @endif
                             @endforeach
                         </div>
                     </div>
