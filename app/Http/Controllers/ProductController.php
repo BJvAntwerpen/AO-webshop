@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\CategoryModel;
+use App\ProductModel;
 
 class ProductController extends Controller
 {
@@ -18,18 +19,19 @@ class ProductController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Show all the products from a category.
      *
      * @return \Illuminate\Http\Response
      */
     public function index($id)
     {
-    	$products = array();
-    	$productCategories = DB::table('products_categories')->where('category_id', $id)->get();
-    	foreach ($productCategories as $productCategory) {
-    		$product = DB::table('products')->where('product_id', $productCategory->product_id)->get();
-    		array_push($products, $product);
-    	}
-        return view('products', ['products' => $products, 'productCategories' => $productCategories]);
+        $CategoryModel = new CategoryModel;
+        $ProductModel = new ProductModel;
+
+        $category = $CategoryModel->getCategory($id);
+    	$productCategories = $CategoryModel->getProductCategories($id);
+    	$products = $ProductModel->getAllProducts();
+        
+        return view('products', ['products' => $products, 'productCategories' => $productCategories, 'category' => $category]);
     }
 }

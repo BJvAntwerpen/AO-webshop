@@ -8,8 +8,15 @@ use Illuminate\Support\Facades\DB;
 
 class CategoryModel extends Model
 {
-    public function getAll() {
-    	$categories = DB::table('categories')->get();
-    	return $categories;
+    public function getAllCategories() {
+    	return DB::table('categories')->get();
+    }
+
+    public function getCategory($id) {
+    	return DB::table('categories')->where('id', $id)->first();
+    }
+
+    public function getProductCategories($id) {
+    	return DB::table('products_categories')->where('category_id', $id)->get();
     }
 }

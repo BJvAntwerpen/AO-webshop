@@ -5,29 +5,25 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Products from category X</div>
-                {{$products}}
+                <div class="card-header">Products from category {{$category->category_name}}</div>
                 <div class="card-body">
                     <div class="container">
                         <div class="row justify-content-center">
-                            <div class="col-md-6">
-                                <ul>
-                                    <li><a href="{{ url('/product') }}">Product 1</a></li>
-                                    <li><a href="{{ url('/product') }}">Product 2</a></li>
-                                    <li><a href="{{ url('/product') }}">Product 3</a></li>
-                                </ul>
-                            </div>
-                            <div class="col-md-6">
-                                <ul>
-                                    <li><a href="{{ url('/product') }}">Product 4</a></li>
-                                    <li><a href="{{ url('/product') }}">Product 5</a></li>
-                                    <li><a href="{{ url('/product') }}">Product 6</a></li>
-                                </ul>
-                            </div>
+                            @foreach($products as $product)
+                                @foreach($productCategories as $productCategory)
+                                    @if($productCategory->product_id == $product->id)
+                                        <div class="col-md-4">
+                                        <ul>
+                                        <li><a href="{{ url('/product/' . $product->id) }}">{{$product->product_name}}</a></li>
+                                        </ul>
+                                        </div>
+                                        <div class="col-md-2">add 1 to cart</div>
+                                    @endif
+                                @endforeach
+                            @endforeach
                         </div>
                     </div>
                 </div>
-                {{$productCategories}}
             </div>
         </div>
     </div>

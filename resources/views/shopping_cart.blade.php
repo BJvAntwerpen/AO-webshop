@@ -2,14 +2,31 @@
 
 @section('content')
 <div class="container">
-	your cart:
-	<div class="row justify-content-center">
-		<div class="col-md-4">
-			This is a product name.
-		</div>
-		<div class="col-md-8">
-			This is its description and stuffz.
-		</div>
-	</div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Your shopping cart</div>
+                <div class="card-body">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-md-4">
+                                <ul>
+                                    <li>This is a product name.</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul>
+                                    <li>This is its description and stuffz.</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-2">
+                            	This is the count.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection

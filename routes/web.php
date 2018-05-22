@@ -15,13 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/product', function() {
-	return view('product_details');
-});
+Route::get('/product/{id}', 'ProductDetailsController@index');
 
-Route::get('/cart', function() {
-	return view('shopping_cart');
-});
+Route::get('/cart', 'ShoppingCartController@index');
 
 Route::get('/category', 'CategoryController@index');
 

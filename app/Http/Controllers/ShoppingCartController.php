@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\CategoryModel;
+use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class ShoppingCartController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -15,16 +15,14 @@ class CategoryController extends Controller
     {
         $this->middleware('auth');
     }
-
+    
     /**
-     * Show the categories page.
+     * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $CategoryModel = new CategoryModel;
-    	$categories = $CategoryModel->getAllCategories();
-        return view('categories', ['categories' => $categories]);
+        return view('shopping_cart');
     }
 }

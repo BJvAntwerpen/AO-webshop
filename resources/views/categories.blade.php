@@ -13,7 +13,7 @@
                             @foreach ($categories as $category)
                             <div class="col-md-6">
                                 <ul>
-                                    <li><a href="{{ url('/products/' . $category->category_id) }}">{{$category->category_name}}</a></li>
+                                    <li><a href="{{ url('/products/' . $category->id) }}">{{$category->category_name}}</a></li>
                                 </ul>
                             </div>
                             @endforeach
