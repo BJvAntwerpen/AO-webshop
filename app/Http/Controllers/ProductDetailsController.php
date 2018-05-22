@@ -23,10 +23,12 @@ class ProductDetailsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index($category_id, $product_id)
     {
     	$ProductModel = new ProductModel;
-    	$product = $ProductModel->getProduct($id);
-    	return view('product_details', ['product' => $product]);
+
+    	$product = $ProductModel->getProduct($product_id);
+
+    	return view('product_details', ['product' => $product, 'category_id' => $category_id]);
     }
 }

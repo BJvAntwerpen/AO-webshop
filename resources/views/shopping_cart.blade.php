@@ -5,7 +5,14 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Your shopping cart</div>
+                <div class="card-header">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                        <div class="col-md-10">Your shopping cart</div>
+                        <div class="col-md-2"><a href="{{url('/category')}}">Go back</a></div>
+                        </div>
+                    </div>
+                </div>
                 <div class="card-body">
                     <div class="container">
                         <div class="row justify-content-center">

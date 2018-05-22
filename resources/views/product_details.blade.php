@@ -9,7 +9,7 @@
 					<div class="container">
 						<div class="row justify-content-center">
 							<div class="col-md-10">{{$product->product_name}}</div>
-							<div class="col-md-2"><a href="{{url('/products/')}}">Go back</a></div>
+							<div class="col-md-2"><a href="{{url('/products/' . $category_id)}}">Go back</a></div>
 						</div>
 					</div>
 				</div>

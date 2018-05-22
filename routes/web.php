@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/product/{id}', 'ProductDetailsController@index');
+Route::get('/product/{category_id}/{product_id}', 'ProductDetailsController@index');
 
 Route::get('/cart', 'ShoppingCartController@index');
 
