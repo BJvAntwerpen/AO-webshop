@@ -17,6 +17,8 @@ Route::get('/', function () {
 
 Route::get('/product/{category_id}/{product_id}', 'ProductDetailsController@index');
 
+Route::get('/addToCart', 'ShoppingCartController@addToCart');
+
 Route::get('/cart', 'ShoppingCartController@index');
 
 Route::get('/category', 'CategoryController@index');

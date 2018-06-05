@@ -25,6 +25,7 @@ class ProductController extends Controller
      */
     public function index($id)
     {
+        $action = isset($_GET['action']) ? $_GET['action'] : null;
         $CategoryModel = new CategoryModel;
         $ProductModel = new ProductModel;
 
@@ -32,6 +33,6 @@ class ProductController extends Controller
     	$productCategories = $CategoryModel->getProductCategories($id);
     	$products = $ProductModel->getAllProducts();
         
-        return view('products', ['products' => $products, 'productCategories' => $productCategories, 'category' => $category]);
+        return view('products', ['products' => $products, 'productCategories' => $productCategories, 'category' => $category, 'action' => $action]);
     }
 }
