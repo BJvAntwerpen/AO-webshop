@@ -15,24 +15,40 @@
                 </div>
                 <div class="card-body">
                     <div class="container">
-                        <div class="row justify-content-center">
+                    	@if (!empty($cart))
+                    	<div class="row justify-content-center">
                             <div class="col-md-4">
-                                <ul>
-                                    <li>This is a product name.</li>
-                                </ul>
+                            	<p>Product name</p>
                             </div>
                             <div class="col-md-6">
-                                <ul>
-                                    <li>This is its description and stuffz.</li>
-                                </ul>
+                                <p>Product description</p>
                             </div>
                             <div class="col-md-2">
-                            	This is the count.
+                            	<p>Quantity</p>
                             </div>
                         </div>
+                    	@foreach ($cart as $product)
+                        <div class="row justify-content-center">
+                            <div class="col-md-4">
+                            	<p>{{$product['product_name']}}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{$product['product_desc']}}</p>
+                            </div>
+                            <div class="col-md-2">
+                            	<p>{{$product['quantity']}}</p>
+                            </div>
+                        </div>
+                        @endforeach
+                        @else
+                        <div class="row justify-content-center">
+                        	<p>Your cart is empty</p>
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
+            <a href="{{url('/clear')}}">Clear cart</a>
         </div>
     </div>
 </div>

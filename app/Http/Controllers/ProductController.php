@@ -26,13 +26,18 @@ class ProductController extends Controller
     public function index($id)
     {
         $action = isset($_GET['action']) ? $_GET['action'] : null;
+        $product_id = isset($_GET['id']) ? $_GET['id'] : null ;
         $CategoryModel = new CategoryModel;
         $ProductModel = new ProductModel;
+        $productName = null;
 
         $category = $CategoryModel->getCategory($id);
     	$productCategories = $CategoryModel->getProductCategories($id);
     	$products = $ProductModel->getAllProducts();
+        if ($action != null) {
+            $productName = $ProductModel->getProduct($product_id)->product_name;
+        }
         
-        return view('products', ['products' => $products, 'productCategories' => $productCategories, 'category' => $category, 'action' => $action]);
+        return view('products', ['products' => $products, 'productCategories' => $productCategories, 'category' => $category, 'action' => $action, 'productName' => $productName]);
     }
 }

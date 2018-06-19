@@ -19,6 +19,8 @@ Route::get('/product/{category_id}/{product_id}', 'ProductDetailsController@inde
 
 Route::get('/addToCart', 'ShoppingCartController@addToCart');
 
+Route::get('/clear', 'ShoppingCartController@clearCart');
+
 Route::get('/cart', 'ShoppingCartController@index');
 
 Route::get('/category', 'CategoryController@index');

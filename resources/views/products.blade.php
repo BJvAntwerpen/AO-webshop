@@ -4,8 +4,8 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            @if ($action != null)
-            <div class="alert alert-success">success</div>
+            @if ($action == 'added')
+            <div class="alert alert-success">success. Added {{$productName}} to the shopping cart</div>
             @endif
             <div class="card">
                 <div class="card-header">
@@ -27,7 +27,7 @@
                                         <li><a href="{{ url('/product/' . $category->id . '/' . $product->id) }}">{{$product->product_name}}</a></li>
                                         </ul>
                                         </div>
-                                        <div class="col-md-2"><a href="{{ url('/addToCart?category_id=' . $category->id . '&product_id=' . $product->id) }}">add 1 to cart</a></div>
+                                        <div class="col-md-2"><a href="{{ url('/addToCart?category_id=' . $category->id . '&product_id=' . $product->id . '&return=products') }}">add 1 to cart</a></div>
                                     @endif
                                 @endforeach
                             @endforeach
