@@ -45,7 +45,7 @@
                             </div>
                             <div class="col-md-2">&euro;{{ $product['product_price'] }}</div>
                             <div class="col-md-2 totalPrice">&euro;{{ $product['product_price'] * $product['quantity'] }}</div>
-                            <div class="col-md-1"><a href="{{ url('/deleteItem?product_id=' . $product['product_id']) }}">X</a></div>
+                            <div class="col-md-1"><a class="btn btn-link" href="{{ url('/deleteItem?product_id=' . $product['product_id']) }}">X</a></div>
                         </div>
                         @endforeach
                         <div class="row justify-content-center">
@@ -58,8 +58,7 @@
                         </div>
                         <div class="row justify-content-center">
                         	<div class="col-md-2"></div>
-                        	<div class="col-md-3"><a class="btn btn-link" href="#">order</a></div>
-                        	<div class="col-md-2"></div>
+                        	<div class="col-md-5"><a class="btn btn-link" href="#">Order</a></div>
                         	<div class="col-md-2"><a class="btn btn-link" href="{{url('/clear')}}">Clear cart</a></div>
                         	<div class="col-md-2"></div>
                         	<div class="col-md-1"></div>

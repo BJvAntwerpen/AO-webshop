@@ -34,3 +34,7 @@ Route::get('/products/{id}', 'ProductController@index');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/test', 'ClientController@checkClient');
+
+Route::get('/addClient', 'ClientController@index');
