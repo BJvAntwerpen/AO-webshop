@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="container">
-                        <div class="row justify-content-center"><?php //var_dump($cart) ?>
+                        <div class="row justify-content-center">
                         <div class="col-md-10">Your shopping cart</div>
                         <div class="col-md-2"><a href="{{url('/category')}}">Go back</a></div>
                         </div>
@@ -43,11 +43,27 @@
                             		<input class="{{ 'id' . $product['product_id'] }}" type="number" name="quantity" min="0" max="999999" value="{{ $product['quantity'] }}">
                             	</form>
                             </div>
-                            <div class="col-md-2">&euro; {{ $product['product_price'] }}</div>
-                            <div class="col-md-2">&euro; {{ $product['product_price'] * $product['quantity'] }}</div>
+                            <div class="col-md-2">&euro;{{ $product['product_price'] }}</div>
+                            <div class="col-md-2 totalPrice">&euro;{{ $product['product_price'] * $product['quantity'] }}</div>
                             <div class="col-md-1"><a href="{{ url('/deleteItem?product_id=' . $product['product_id']) }}">X</a></div>
                         </div>
                         @endforeach
+                        <div class="row justify-content-center">
+                        	<div class="col-md-2">Totals:</div>
+                        	<div class="col-md-3">Total item count</div>
+                        	<div class="col-md-2" id="totalItems"></div>
+                        	<div class="col-md-2">Total price</div>
+                        	<div class="col-md-2" id="totalPrice">&euro;</div>
+                        	<div class="col-md-1"></div>
+                        </div>
+                        <div class="row justify-content-center">
+                        	<div class="col-md-2"></div>
+                        	<div class="col-md-3"><a class="btn btn-link" href="#">order</a></div>
+                        	<div class="col-md-2"></div>
+                        	<div class="col-md-2"><a class="btn btn-link" href="{{url('/clear')}}">Clear cart</a></div>
+                        	<div class="col-md-2"></div>
+                        	<div class="col-md-1"></div>
+						</div>
                         @else
                         <div class="row justify-content-center">
                         	<p>Your cart is empty</p>
@@ -56,7 +72,6 @@
                     </div>
                 </div>
             </div>
-            <a href="{{url('/clear')}}">Clear cart</a>
         </div>
     </div>
 </div>

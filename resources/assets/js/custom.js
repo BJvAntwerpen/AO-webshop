@@ -1,17 +1,5 @@
 var cartModule = (function(){
-	var url, newUrl, productId;
-	
-	var init = (function() {//init function to add eventListeners to [input] when url has 'cart' in it
-		if (location.href.includes('cart')) {
-			var inputs = document.querySelectorAll('input[type=number]');
-			for (var i = 0; i < inputs.length; i++) {
-				console.log(inputs[i]);
-				inputs[i].addEventListener('change', function(){
-					createUrl(this);
-				});
-			}
-		}
-	})();
+	var url, newUrl, productId, price, totalPrice, totalCount;
 
 	var createUrl = function(input) {
 		url = location.href;
@@ -56,5 +44,41 @@ var cartModule = (function(){
 		console.log(inputValue);
 		return inputValue
 	};
+
+	var getTotalPrice = function() {
+		var prices = document.querySelectorAll('div.totalPrice');
+		price = [];
+		for (var i = 0; i < prices.length; i++) {
+			price[i] = prices[i].innerHTML.split('€');
+			price[i] = Number(price[i][1]);
+		}
+		totalPrice = 0;
+		for (i = 0; i < price.length; i++) {
+			totalPrice += price[i];
+		}
+		totalPrice = Number(totalPrice.toFixed(2));
+		document.getElementById('totalPrice').innerHTML += totalPrice;
+	};
+
+	var getTotalCount = function(inputs) {
+		totalCount = 0;
+		for (var i = 0; i < inputs.length; i++) {
+			totalCount += Number(inputs[i].value);
+		}
+		document.getElementById('totalItems').innerHTML = totalCount;
+	};
+
+	var init = (function() {//init function to add eventListeners to [input] when url has 'cart' in it and run some other things
+		var inputs = document.querySelectorAll('input[type=number]');
+		if (location.href.includes('cart') && inputs.length != 0) {
+			for (var i = 0; i < inputs.length; i++) {
+				inputs[i].addEventListener('change', function(){
+					createUrl(this);
+				});
+			}
+			getTotalPrice();
+			getTotalCount(inputs);
+		}
+	})();
 
 })();
