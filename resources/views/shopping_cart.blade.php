@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="container">
-                        <div class="row justify-content-center">
+                        <div class="row justify-content-center"><?php //var_dump($cart) ?>
                         <div class="col-md-10">Your shopping cart</div>
                         <div class="col-md-2"><a href="{{url('/category')}}">Go back</a></div>
                         </div>
@@ -17,27 +17,35 @@
                     <div class="container">
                     	@if (!empty($cart))
                     	<div class="row justify-content-center">
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                             	<p>Product name</p>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <p>Product description</p>
                             </div>
                             <div class="col-md-2">
                             	<p>Quantity</p>
                             </div>
+                            <div class="col-md-2">Item cost</div>
+                            <div class="col-md-2">Total cost</div>
+                            <div class="col-md-1">Del</div>
                         </div>
                     	@foreach ($cart as $product)
                         <div class="row justify-content-center">
-                            <div class="col-md-4">
-                            	<p>{{$product['product_name']}}</p>
+                            <div class="col-md-2">
+                            	<p>{{ $product['product_name'] }}</p>
                             </div>
-                            <div class="col-md-6">
-                                <p>{{$product['product_desc']}}</p>
+                            <div class="col-md-3">
+                                <p>{{ $product['product_desc'] }}</p>
                             </div>
                             <div class="col-md-2">
-                            	<p>{{$product['quantity']}}</p>
+                            	<form>
+                            		<input class="{{ 'id' . $product['product_id'] }}" type="number" name="quantity" min="0" max="999999" value="{{ $product['quantity'] }}">
+                            	</form>
                             </div>
+                            <div class="col-md-2">&euro; {{ $product['product_price'] }}</div>
+                            <div class="col-md-2">&euro; {{ $product['product_price'] * $product['quantity'] }}</div>
+                            <div class="col-md-1"><a href="{{ url('/deleteItem?product_id=' . $product['product_id']) }}">X</a></div>
                         </div>
                         @endforeach
                         @else

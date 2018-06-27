@@ -21,6 +21,10 @@ Route::get('/addToCart', 'ShoppingCartController@addToCart');
 
 Route::get('/clear', 'ShoppingCartController@clearCart');
 
+Route::get('/updateCart', 'ShoppingCartController@updateCartItem');
+
+Route::get('/deleteItem', 'ShoppingCartController@deleteCartItem');
+
 Route::get('/cart', 'ShoppingCartController@index');
 
 Route::get('/category', 'CategoryController@index');

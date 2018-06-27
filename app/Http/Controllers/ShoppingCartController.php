@@ -56,11 +56,11 @@ class ShoppingCartController extends Controller
                 }
             }
             if (!$inc) {
-                $product = ['product_id' => $product_id, 'quantity' => $quantity, 'product_name' => $productInfo->product_name, 'product_desc' => $productInfo->product_description];
+                $product = ['product_id' => $product_id, 'quantity' => $quantity, 'product_name' => $productInfo->product_name, 'product_desc' => $productInfo->product_description, 'product_price' => $productInfo->product_price];
                 $request->session()->push('cart', $product);
             }
         } else {
-                $product = ['product_id' => $product_id, 'quantity' => $quantity, 'product_name' => $productInfo->product_name, 'product_desc' => $productInfo->product_description];
+                $product = ['product_id' => $product_id, 'quantity' => $quantity, 'product_name' => $productInfo->product_name, 'product_desc' => $productInfo->product_description, 'product_price' => $productInfo->product_price];
             $request->session()->push('cart', $product);
         }        
 
@@ -76,6 +76,42 @@ class ShoppingCartController extends Controller
 
     public function clearCart(Request $request) {
         $request->session()->forget('cart');
+        return redirect('cart');
+    }
+
+    public function deleteCartItem(Request $request) {
+        $cart = $request->session()->get('cart');
+        $product_id = isset($_GET['product_id']) ? $_GET['product_id'] : null;
+        if ($product_id == null) {
+            return view('error');
+        }
+
+        for ($i = 0; $i < count($cart); $i++) {
+            if ($cart[$i]['product_id'] == $product_id) {
+                array_splice($cart, $i, 1);
+            }
+        }
+        $request->session()->put('cart', $cart);
+        return redirect('cart');
+    }
+
+    public function updateCartItem(Request $request) {
+        $cart = $request->session()->get('cart');
+        $product_id = isset($_GET['product_id']) ? $_GET['product_id'] : null;
+        $new_quantity = isset($_GET['new_quantity']) ? intval($_GET['new_quantity']) : null;
+
+        if ($product_id == null || $new_quantity == null) {
+            return view('error');
+        }
+
+        for ($i = 0; $i < count($cart); $i++) {
+            if ($cart[$i]['product_id'] == $product_id) {
+                $cart[$i]['quantity'] = $new_quantity;
+            }
+        }
+
+        $request->session()->put('cart', $cart);
+
         return redirect('cart');
     }
 }
