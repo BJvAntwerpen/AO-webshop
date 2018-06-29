@@ -58,7 +58,7 @@
                         </div>
                         <div class="row justify-content-center">
                         	<div class="col-md-2"></div>
-                        	<div class="col-md-5"><a class="btn btn-link" href="#">Order</a></div>
+                        	<div class="col-md-5"><a class="btn btn-link" href="{{url('/testClient')}}">Order</a></div>
                         	<div class="col-md-2"><a class="btn btn-link" href="{{url('/clear')}}">Clear cart</a></div>
                         	<div class="col-md-2"></div>
                         	<div class="col-md-1"></div>

@@ -35,6 +35,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/test', 'ClientController@checkClient');
+Route::get('/testClient', 'ClientController@checkClient');
 
 Route::get('/addClient', 'ClientController@index');
+
+Route::post('/saveClient', 'ClientController@addClient');

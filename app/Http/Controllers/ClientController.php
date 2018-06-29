@@ -19,17 +19,32 @@ class ClientController extends Controller
     }
 
     public function index() {
-    	return view('add_client');
+    	return view('add_client', ['userId' => Auth::id()]);
     }
 
-    public function checkClient()
-    {
+    public function checkClient() {
     	$clientModel = new ClientModel;
     	$check = $clientModel->getClient(Auth::id());
     	if (!empty($check)) {
-    		return view('test', ['check' => 'checked']);
+    		return view('test', ['check' => 'checked']);//order it
     	} else {
     		return redirect('addClient');
+    	}
+    }
+
+    public function addClient() {
+    	$clientModel = new ClientModel;
+    	$userId = isset($_POST['userId']) ? $_POST['userId'] : null;
+    	$address = isset($_POST['address']) ? $_POST['address'] : null;
+    	
+    	if ($userId == null || $address == null) {
+    		return view('error');
+    	}
+
+    	if (!$clientModel->addClient($userId, $address)) {
+    		return view('error');
+    	} else {
+    		return redirect('testClient');
     	}
     }
 }
