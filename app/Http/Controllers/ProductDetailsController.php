@@ -25,8 +25,8 @@ class ProductDetailsController extends Controller
      */
     public function index($category_id, $product_id)
     {
-        $action = isset($_GET['action']) ? $_GET['action'] : null;
-        $quantity = isset($_GET['quantity']) ? $_GET['quantity'] : null;
+        $action = isset($_GET['action']) ? $_GET['action'] : null;//after adding to cart
+        $quantity = isset($_GET['quantity']) ? $_GET['quantity'] : null;//after adding to cart
 
     	$ProductModel = new ProductModel;
 

@@ -26,7 +26,7 @@ class ClientController extends Controller
     	$clientModel = new ClientModel;
     	$check = $clientModel->getClient(Auth::id());
     	if (!empty($check)) {
-    		return view('test', ['check' => 'checked']);//order it
+    		return view('test', ['check' => 'checked']);//order it//redirect('order');
     	} else {
     		return redirect('addClient');
     	}
