@@ -41,4 +41,4 @@ Route::get('/addClient', 'ClientController@index');
 
 Route::post('/saveClient', 'ClientController@addClient');
 
-Route::post('/viewOrders', 'OrderController@index');
+Route::post('/orders', 'OrderController@index');
