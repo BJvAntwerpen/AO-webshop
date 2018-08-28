@@ -149,8 +149,8 @@ var cartModule = function () {
 
 	var init = function () {
 		//init function to add eventListeners to [input] when url has 'cart' in it and run some other things
+		inputs = document.querySelectorAll('input[type=number]');
 		if (location.href.includes('cart') && inputs.length != 0) {
-			inputs = document.querySelectorAll('input[type=number]');
 			for (var i = 0; i < inputs.length; i++) {
 				inputs[i].addEventListener('change', function () {
 					createUrl(this);
