@@ -17,6 +17,7 @@
                     <div class="container">
                         <div class="row justify-content-center">
                         	<p>You have no orders</p>
+                            {{ $orders }}
                         </div>
                     </div>
                 </div>

@@ -8,7 +8,13 @@ use Illuminate\Support\Facades\DB;
 
 class OrderModel extends Model
 {
-	protected $timestamps = true;
+	public $timestamps = true;
+
+	public function getOrders($id) {
+		return DB::table('orders')->where('client_id', $id)->get();
+	}
+
+	public function getOrderDetails() {}
 
     public function placeOrder($id) {
     	DB::table('orders')->insert(
@@ -18,6 +24,22 @@ class OrderModel extends Model
     }
 
     public function placeOrderDetails($cart) {
+    	$maxOrderId = DB::table('order_details')->max('order_id');
+    	if (DB::table('order_details')->max('order_id') == null) {
+    		$maxOrderId = 1;
+    	}
+    	$maxOrderId += 1;
 
+    	foreach ($cart as $cartProduct) {
+    		DB::table('order_details')->insert(
+    			['order_id' => $maxOrderId, 'product_id' => $cartProduct->product_id, 'product_count' => $cartProduct->quantity]
+    			);
+    	}
+    	
+    	return true;
     }
 }
+/*
+['order_id' => $maxOrderId, 'product_id' => $cartProduct->product_id, 'product_count' => $cartProduct->quantity]
+
+*/

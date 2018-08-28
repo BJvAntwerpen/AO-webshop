@@ -21,24 +21,31 @@ class OrderController extends Controller
     }
 
     public function index() {
-    	return view('orders');
+    	$orderModel = new OrderModel;
+    	$clientModel = new ClientModel;
+
+    	$clientId = $clientModel->getClient(Auth::id())->id;
+    	$orders = $orderModel->getOrders($clientId);
+
+    	return view('orders', ['orders' => $orders]);
     }
 
     public function orderDetails() {
     	return view('order_details');
     }
 
-    public function orderProducts() {
+    public function orderProducts(Request $request) {
     	$orderModel = new OrderModel;
     	$clientModel = new ClientModel;
     	$shoppingCartModel = new ShoppingCartModel;
 
     	$clientId = $clientModel->getClient(Auth::id())->id;
+    	$cart = $shoppingCartModel->getCart($request);
 
-    	if (!$orderModel->placeOrder($clientId)) {
-    		return view('error');
-    	} else {
+    	if ($orderModel->placeOrder($clientId) && $orderModel->placeOrderDetails($cart)) {
     		return redirect('orders');
+    	} else {
+    		return view('error');
     	}
     }
 }
