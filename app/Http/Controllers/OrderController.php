@@ -34,5 +34,11 @@ class OrderController extends Controller
     	$shoppingCartModel = new ShoppingCartModel;
 
     	$clientId = $clientModel->getClient(Auth::id())->id;
+
+    	if (!$orderModel->placeOrder($clientId)) {
+    		return view('error');
+    	} else {
+    		return redirect('orders');
+    	}
     }
 }

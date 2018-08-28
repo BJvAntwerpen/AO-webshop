@@ -16,4 +16,8 @@ class OrderModel extends Model
 		);
 		return true;
     }
+
+    public function placeOrderDetails($cart) {
+
+    }
 }
