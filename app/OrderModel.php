@@ -17,29 +17,19 @@ class OrderModel extends Model
 	public function getOrderDetails() {}
 
     public function placeOrder($id) {
-    	DB::table('orders')->insert(
+    	$id = DB::table('orders')->insertGetId(
     		['client_id' => $id, 'order_status' => 'ordered']
 		);
-		return true;
+		return $id;
     }
 
-    public function placeOrderDetails($cart) {
-    	$maxOrderId = DB::table('order_details')->max('order_id');
-    	if (DB::table('order_details')->max('order_id') == null) {
-    		$maxOrderId = 1;
-    	}
-    	$maxOrderId += 1;
-
+    public function placeOrderDetails($cart, $id) {
     	foreach ($cart as $cartProduct) {
     		DB::table('order_details')->insert(
-    			['order_id' => $maxOrderId, 'product_id' => $cartProduct->product_id, 'product_count' => $cartProduct->quantity]
+    			['order_id' => $id, 'product_id' => $cartProduct['product_id'], 'product_count' => $cartProduct['quantity']]
     			);
     	}
     	
     	return true;
     }
 }
-/*
-['order_id' => $maxOrderId, 'product_id' => $cartProduct->product_id, 'product_count' => $cartProduct->quantity]
-
-*/

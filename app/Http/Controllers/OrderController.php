@@ -42,7 +42,9 @@ class OrderController extends Controller
     	$clientId = $clientModel->getClient(Auth::id())->id;
     	$cart = $shoppingCartModel->getCart($request);
 
-    	if ($orderModel->placeOrder($clientId) && $orderModel->placeOrderDetails($cart)) {
+    	$orderId = $orderModel->placeOrder($clientId);
+
+    	if ($orderModel->placeOrderDetails($cart, $orderId)) {
     		return redirect('orders');
     	} else {
     		return view('error');
