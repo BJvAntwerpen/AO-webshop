@@ -43,6 +43,6 @@ Route::post('/saveClient', 'ClientController@addClient');
 
 Route::get('/orders', 'OrderController@index');
 
-Route::get('/orderDetails', 'OrderController@orderDetails');
+Route::get('/orderDetails/{id}', 'OrderController@orderDetails');
 
 Route::get('/order', 'OrderController@orderProducts');

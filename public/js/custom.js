@@ -77,7 +77,7 @@ module.exports = __webpack_require__(45);
 /***/ (function(module, exports) {
 
 var cartModule = function () {
-	var url, newUrl, productId, price, totalPrice, totalCount;
+	var url, newUrl, productId, price, totalPrice, totalCount, inputs;
 
 	var createUrl = function createUrl(input) {
 		url = location.href;
@@ -149,8 +149,8 @@ var cartModule = function () {
 
 	var init = function () {
 		//init function to add eventListeners to [input] when url has 'cart' in it and run some other things
-		var inputs = document.querySelectorAll('input[type=number]');
 		if (location.href.includes('cart') && inputs.length != 0) {
+			inputs = document.querySelectorAll('input[type=number]');
 			for (var i = 0; i < inputs.length; i++) {
 				inputs[i].addEventListener('change', function () {
 					createUrl(this);
@@ -158,6 +158,14 @@ var cartModule = function () {
 			}
 			getTotalPrice();
 			getTotalCount(inputs);
+		} else if (location.href.includes('orderDetails')) {
+			getTotalPrice();
+			totalCount = 0;
+			inputs = document.querySelectorAll('div.count');
+			for (var i = 0; i < inputs.length; i++) {
+				totalCount += Number(inputs[i].innerHTML);
+			}
+			document.getElementById('totalItems').innerHTML = totalCount;
 		}
 	}();
 }();
