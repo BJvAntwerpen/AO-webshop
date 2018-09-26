@@ -25,9 +25,8 @@ class ShoppingCartController extends Controller
      */
     public function index(Request $request)
     {
-        $cartModel = new ShoppingCartModel;
-        $cart = $cartModel->getCart($request);
-        return view('shopping_cart', ['cart' => $cart]);
+        $cartModel = new ShoppingCartModel($request);
+        return view('shopping_cart', ['cart' => $cartModel->cart]);
     }
 
     /**
@@ -37,9 +36,8 @@ class ShoppingCartController extends Controller
      * or home if not found
      */
     public function addToCart(Request $request) {
-        $inc = false;
         $ProductModel = new ProductModel;
-        $cartModel = new ShoppingCartModel;
+        $cartModel = new ShoppingCartModel($request);
 
         $category_id = isset($_GET['category_id']) ? $_GET['category_id'] : null;
         $product_id = isset($_GET['product_id']) ? $_GET['product_id'] : null;
@@ -50,26 +48,16 @@ class ShoppingCartController extends Controller
             return view('error');
         }
         $productInfo = $ProductModel->getProduct($product_id);
-        $cart = $cartModel->getCart($request);
-        
+
         $product = ['product_id' => $product_id, 'quantity' => $quantity, 'product_name' => $productInfo->product_name, 'product_desc' => $productInfo->product_description, 'product_price' => $productInfo->product_price];
 
-        if (!empty($cart)) {
-            for ($i = 0; $i < count($cart); $i++) {
-                if ($cart[$i]['product_id'] == $product_id) {
-                    $cart[$i]['quantity'] += $quantity;
-                    $inc = true;
-                    $cartModel->putCart($request, $cart);
-                }
-            }
-            if (!$inc) {
-                $cartModel->pushCart($request, $product);
-            }
+        if (empty($cartModel->cart[$product_id])) {
+            $cartModel->addProduct($product);
         } else {
-            $cartModel->pushCart($request, $product);
-        }        
+            $cartModel->addProductCount($product);
+        }
 
-        $inc = false;
+        $cartModel->saveCart($request);
 
         if ($returnTo == 'products') {
             return redirect('products/' . $category_id . '?action=added&id=' . $product_id);
@@ -80,32 +68,43 @@ class ShoppingCartController extends Controller
         }
     }
 
+    /**
+     * Clear the cart
+     *
+     * redirects back to the cart
+     */
     public function clearCart(Request $request) {
-        $cartModel = new ShoppingCartModel;
+        $cartModel = new ShoppingCartModel($request);
         $cartModel->forgetCart($request);
         return redirect('cart');
     }
 
+    /**
+     * Clears one product in the cart
+     *
+     * redirects back to the cart
+     */
     public function deleteCartItem(Request $request) {
-        $cartModel = new ShoppingCartModel;
-        $cart = $cartModel->getCart($request);
+        $cartModel = new ShoppingCartModel($request);
         $product_id = isset($_GET['product_id']) ? $_GET['product_id'] : null;
         if ($product_id == null) {
             return view('error');
         }
 
-        for ($i = 0; $i < count($cart); $i++) {
-            if ($cart[$i]['product_id'] == $product_id) {
-                array_splice($cart, $i, 1);
-            }
-        }
-        $cartModel->putCart($request, $cart);
+        $cartModel->deleteProduct($product_id);
+
+        $cartModel->saveCart($request);
         return redirect('cart');
     }
 
+    /**
+     * Updates one product in the cart to
+     * the new quantity
+     *
+     * redirects back to the cart
+     */
     public function updateCartItem(Request $request) {
-        $cartModel = new ShoppingCartModel;
-        $cart = $cartModel->getCart($request);
+        $cartModel = new ShoppingCartModel($request);
         $product_id = isset($_GET['product_id']) ? $_GET['product_id'] : null;
         $new_quantity = isset($_GET['new_quantity']) ? intval($_GET['new_quantity']) : null;
 
@@ -113,13 +112,9 @@ class ShoppingCartController extends Controller
             return view('error');
         }
 
-        for ($i = 0; $i < count($cart); $i++) {
-            if ($cart[$i]['product_id'] == $product_id) {
-                $cart[$i]['quantity'] = $new_quantity;
-            }
-        }
+        $cartModel->cart[$product_id]['quantity'] = $new_quantity;
 
-        $cartModel->putCart($request, $cart);
+        $cartModel->saveCart($request);
 
         return redirect('cart');
     }

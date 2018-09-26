@@ -6,25 +6,42 @@ use Illuminate\Database\Eloquent\Model;
 
 class ShoppingCartModel extends Model
 {
+    public $cart = array();
+
     /**
-     * Get the cart
+     * Save cart to this class
      */
-    public function getCart($request) {
-    	return $request->session()->get('cart');
+    public function __construct($request)
+    {
+        $this->cart = $request->session()->get('cart');
+    }
+
+    /**
+     * Add new product to the cart
+     */
+    public function addProduct($product) {
+        $this->cart[$product['product_id']] = $product;
+    }
+
+    /**
+     * Add more to one product
+     */
+    public function addProductCount($product) {
+        $this->cart[$product['product_id']]['quantity'] += $product['quantity'];
+    }
+
+    /**
+     * Delete a product from cart
+     */
+    public function deleteProduct($id) {
+        unset($this->cart[$id]);
     }
 
     /**
      * Put updated cart back into the cart
      */
-    public function putCart($request, $cart) {
-    	$request->session()->put('cart', $cart);
-    }
-
-    /**
-     * Put new product into the cart
-     */
-    public function pushCart($request, $product) {
-    	$request->session()->push('cart', $product);
+    public function saveCart($request) {
+    	$request->session()->put('cart', $this->cart);
     }
 
     /**

@@ -92,9 +92,9 @@ var cartModule = function () {
 			newUrl += url[i] + '/';
 		}
 
-		if (inputValue != 0) {
+		if (inputValue > 0) {
 			newUrl += 'updateCart?product_id=' + productId + '&new_quantity=' + inputValue;
-		} else {
+		} else if (inputValue <= 0) {
 			newUrl += 'deleteItem?product_id=' + productId;
 		}
 
