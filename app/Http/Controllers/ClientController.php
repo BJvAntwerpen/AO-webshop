@@ -18,10 +18,16 @@ class ClientController extends Controller
         $this->middleware('auth');
     }
 
+    /*
+     *Show add_client view
+     */
     public function index() {
     	return view('add_client', ['userId' => Auth::id()]);
     }
 
+    /*
+     *Check if user has an adress
+     */
     public function checkClient() {
     	$clientModel = new ClientModel;
     	$check = $clientModel->getClient(Auth::id());
@@ -32,6 +38,9 @@ class ClientController extends Controller
     	}
     }
 
+    /*
+     *add a client to database
+     */
     public function addClient() {
     	$clientModel = new ClientModel;
     	$userId = isset($_POST['userId']) ? $_POST['userId'] : null;

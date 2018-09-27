@@ -21,6 +21,9 @@ class OrderController extends Controller
         $this->middleware('auth');
     }
 
+    /*
+     *Show all orders
+     */
     public function index() {
     	$orderModel = new OrderModel;
     	$clientModel = new ClientModel;
@@ -31,6 +34,9 @@ class OrderController extends Controller
     	return view('orders', ['orders' => $orders]);
     }
 
+    /*
+     *Show order details from an order
+     */
     public function orderDetails($id) {
     	$orderModel = new OrderModel;
     	$productModel = new ProductModel;
@@ -41,17 +47,19 @@ class OrderController extends Controller
     	return view('order_details', ['orderDetails' => $orderDetails, 'products' => $products]);
     }
 
+    /*
+     *Order your products that are in the cart
+     */
     public function orderProducts(Request $request) {
     	$orderModel = new OrderModel;
     	$clientModel = new ClientModel;
-    	$shoppingCartModel = new ShoppingCartModel;
+    	$shoppingCartModel = new ShoppingCartModel($request);
 
     	$clientId = $clientModel->getClient(Auth::id())->id;
-    	$cart = $shoppingCartModel->getCart($request);
 
     	$orderId = $orderModel->placeOrder($clientId);
 
-    	if ($orderModel->placeOrderDetails($cart, $orderId)) {
+    	if ($orderModel->placeOrderDetails($shoppingCartModel->cart, $orderId)) {
     		$shoppingCartModel->forgetCart($request);
     		return redirect('orders');
     	} else {
