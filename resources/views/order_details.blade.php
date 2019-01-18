@@ -8,7 +8,7 @@
                 <div class="card-header">
                     <div class="container">
                         <div class="row justify-content-center">
-                        <div class="col-md-10">Order number {{ $orderDetails[0]->order_id }}</div>
+                        <div class="col-md-10">Order number {{ $id }}</div>
                         <div class="col-md-2"><a href="{{url('/orders')}}">Go back</a></div>
                         </div>
                     </div>

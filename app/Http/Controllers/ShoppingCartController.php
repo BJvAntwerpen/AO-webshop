@@ -36,7 +36,6 @@ class ShoppingCartController extends Controller
      * or home if not found
      */
     public function addToCart(Request $request) {
-        $ProductModel = new ProductModel;
         $cartModel = new ShoppingCartModel($request);
 
         $category_id = isset($_GET['category_id']) ? $_GET['category_id'] : null;
@@ -47,7 +46,7 @@ class ShoppingCartController extends Controller
         if ($category_id == null || $product_id == null) {
             return view('error');
         }
-        $productInfo = $ProductModel->getProduct($product_id);
+        $productInfo = ProductModel::find($product_id);
 
         $product = ['product_id' => $product_id, 'quantity' => $quantity, 'product_name' => $productInfo->product_name, 'product_desc' => $productInfo->product_description, 'product_price' => $productInfo->product_price];
 

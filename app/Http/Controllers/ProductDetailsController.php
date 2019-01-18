@@ -28,9 +28,7 @@ class ProductDetailsController extends Controller
         $action = isset($_GET['action']) ? $_GET['action'] : null;//after adding to cart
         $quantity = isset($_GET['quantity']) ? $_GET['quantity'] : null;//after adding to cart
 
-    	$ProductModel = new ProductModel;
-
-    	$product = $ProductModel->getProduct($product_id);
+    	$product = ProductModel::find($product_id);
 
     	return view('product_details', ['product' => $product, 'category_id' => $category_id, 'action' => $action, 'quantity' => $quantity]);
     }

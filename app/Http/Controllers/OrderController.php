@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\OrderModel;
+use App\OrderDetailsModel;
 use App\ShoppingCartModel;
 use App\ClientModel;
 use App\ProductModel;
@@ -25,11 +26,11 @@ class OrderController extends Controller
      *Show all orders
      */
     public function index() {
-    	$orderModel = new OrderModel;
-    	$clientModel = new ClientModel;
-
-    	$clientId = $clientModel->getClient(Auth::id())->id;
-    	$orders = $orderModel->getOrders($clientId);
+        $orders = '';
+    	$client = ClientModel::where('user_id', Auth::id())->first();
+        if ($client != null) {
+    	   $orders = OrderModel::where('client_id', $client->id)->get();
+        }
 
     	return view('orders', ['orders' => $orders]);
     }
@@ -38,32 +39,35 @@ class OrderController extends Controller
      *Show order details from an order
      */
     public function orderDetails($id) {
-    	$orderModel = new OrderModel;
-    	$productModel = new ProductModel;
+    	$orderDetails = OrderDetailsModel::where('order_id', $id)->get();
+    	$products = ProductModel::all();
 
-    	$orderDetails = $orderModel->getOrderDetails($id);
-    	$products = $productModel->getAllProducts();
-
-    	return view('order_details', ['orderDetails' => $orderDetails, 'products' => $products]);
+    	return view('order_details', ['orderDetails' => $orderDetails, 'products' => $products, 'id' => $id]);
     }
 
     /*
      *Order your products that are in the cart
      */
     public function orderProducts(Request $request) {
-    	$orderModel = new OrderModel;
-    	$clientModel = new ClientModel;
     	$shoppingCartModel = new ShoppingCartModel($request);
+        $cart = $shoppingCartModel->cart;
 
-    	$clientId = $clientModel->getClient(Auth::id())->id;
+    	$clientId = ClientModel::where('user_id', Auth::id())->first()->id;
 
-    	$orderId = $orderModel->placeOrder($clientId);
+        $order = new OrderModel;
+        $order->client_id = $clientId;
+        $order->order_status = 'ordered';
+        $order->save();
 
-    	if ($orderModel->placeOrderDetails($shoppingCartModel->cart, $orderId)) {
-    		$shoppingCartModel->forgetCart($request);
-    		return redirect('orders');
-    	} else {
-    		return view('error');
-    	}
+        foreach ($cart as $product) {
+            $orderDetail = new OrderDetailsModel;
+            $orderDetail->order_id = $order->id;
+            $orderDetail->product_id = $product['product_id'];
+            $orderDetail->product_count = $product['quantity'];
+            $orderDetail->save();
+        }
+    	
+    	$shoppingCartModel->forgetCart($request);
+    	return redirect('orders');
     }
 }

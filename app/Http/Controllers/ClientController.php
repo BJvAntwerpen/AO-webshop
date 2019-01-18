@@ -29,8 +29,7 @@ class ClientController extends Controller
      *Check if user has an adress
      */
     public function checkClient() {
-    	$clientModel = new ClientModel;
-    	$check = $clientModel->getClient(Auth::id());
+        $check = ClientModel::where('user_id', Auth::id())->first();
     	if (!empty($check)) {
     		return redirect('order');
     	} else {
@@ -42,18 +41,19 @@ class ClientController extends Controller
      *add a client to database
      */
     public function addClient() {
-    	$clientModel = new ClientModel;
     	$userId = isset($_POST['userId']) ? $_POST['userId'] : null;
     	$address = isset($_POST['address']) ? $_POST['address'] : null;
+
+        $client = new ClientModel;
     	
     	if ($userId == null || $address == null) {
     		return view('error');
     	}
 
-    	if (!$clientModel->addClient($userId, $address)) {
-    		return view('error');
-    	} else {
-    		return redirect('testClient');
-    	}
+        $client->user_id = $userId;
+        $client->user_address = $address;
+
+        $client->save();
+    	return redirect('testClient');
     }
 }

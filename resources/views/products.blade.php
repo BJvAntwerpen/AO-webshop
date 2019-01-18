@@ -20,16 +20,12 @@
                     <div class="container">
                         <div class="row justify-content-center">
                             @foreach($products as $product)
-                                @foreach($productCategories as $productCategory)
-                                    @if($productCategory->product_id == $product->id)
-                                        <div class="col-md-4">
-                                        <ul>
-                                        <li><a href="{{ url('/product/' . $category->id . '/' . $product->id) }}">{{$product->product_name}}</a></li>
-                                        </ul>
-                                        </div>
-                                        <div class="col-md-2"><a href="{{ url('/addToCart?category_id=' . $category->id . '&product_id=' . $product->id . '&return=products') }}">add 1 to cart</a></div>
-                                    @endif
-                                @endforeach
+                                <div class="col-md-4">
+                                <ul>
+                                <li><a href="{{ url('/product/' . $category->id . '/' . $product->id) }}">{{$product->product_name}}</a></li>
+                                </ul>
+                                </div>
+                                <div class="col-md-2"><a href="{{ url('/addToCart?category_id=' . $category->id . '&product_id=' . $product->id . '&return=products') }}">add 1 to cart</a></div>
                             @endforeach
                         </div>
                     </div>
