@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\ClientModel;
+use App\Client;
 
 class ClientController extends Controller
 {
@@ -29,7 +29,7 @@ class ClientController extends Controller
      *Check if user has an adress
      */
     public function checkClient() {
-        $check = ClientModel::where('user_id', Auth::id())->first();
+        $check = Client::where('user_id', Auth::id())->first();
     	if (!empty($check)) {
     		return redirect('order');
     	} else {
@@ -44,7 +44,7 @@ class ClientController extends Controller
     	$userId = isset($_POST['userId']) ? $_POST['userId'] : null;
     	$address = isset($_POST['address']) ? $_POST['address'] : null;
 
-        $client = new ClientModel;
+        $client = new Client;
     	
     	if ($userId == null || $address == null) {
     		return view('error');

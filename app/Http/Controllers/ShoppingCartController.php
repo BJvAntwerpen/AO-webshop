@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\ProductModel;
-use App\ShoppingCartModel;
+use App\Product;
+use App\ShoppingCart;
 
 class ShoppingCartController extends Controller
 {
@@ -25,8 +25,8 @@ class ShoppingCartController extends Controller
      */
     public function index(Request $request)
     {
-        $cartModel = new ShoppingCartModel($request);
-        return view('shopping_cart', ['cart' => $cartModel->cart]);
+        $cart = new ShoppingCart($request);
+        return view('shopping_cart', ['cart' => $cart->getCart()]);
     }
 
     /**
@@ -35,8 +35,9 @@ class ShoppingCartController extends Controller
      * redirects back to the page you came from
      * or home if not found
      */
-    public function addToCart(Request $request) {
-        $cartModel = new ShoppingCartModel($request);
+    public function addToCart(Request $request)
+    {
+        $cart = new ShoppingCart($request);
 
         $category_id = isset($_GET['category_id']) ? $_GET['category_id'] : null;
         $product_id = isset($_GET['product_id']) ? $_GET['product_id'] : null;
@@ -46,17 +47,10 @@ class ShoppingCartController extends Controller
         if ($category_id == null || $product_id == null) {
             return view('error');
         }
-        $productInfo = ProductModel::find($product_id);
 
-        $product = ['product_id' => $product_id, 'quantity' => $quantity, 'product_name' => $productInfo->product_name, 'product_desc' => $productInfo->product_description, 'product_price' => $productInfo->product_price];
+        $productInfo = Product::find($product_id);
 
-        if (empty($cartModel->cart[$product_id])) {
-            $cartModel->addProduct($product);
-        } else {
-            $cartModel->addProductCount($product);
-        }
-
-        $cartModel->saveCart($request);
+        $cart->addProduct($productInfo, $quantity, $request);
 
         if ($returnTo == 'products') {
             return redirect('products/' . $category_id . '?action=added&id=' . $product_id);
@@ -72,9 +66,10 @@ class ShoppingCartController extends Controller
      *
      * redirects back to the cart
      */
-    public function clearCart(Request $request) {
-        $cartModel = new ShoppingCartModel($request);
-        $cartModel->forgetCart($request);
+    public function clearCart(Request $request)
+    {
+        $cart = new ShoppingCart($request);
+        $cart->forgetCart($request);
         return redirect('cart');
     }
 
@@ -83,16 +78,16 @@ class ShoppingCartController extends Controller
      *
      * redirects back to the cart
      */
-    public function deleteCartItem(Request $request) {
-        $cartModel = new ShoppingCartModel($request);
+    public function deleteCartItem(Request $request)
+    {
+        $cart = new ShoppingCart($request);
         $product_id = isset($_GET['product_id']) ? $_GET['product_id'] : null;
         if ($product_id == null) {
             return view('error');
         }
 
-        $cartModel->deleteProduct($product_id);
+        $cart->deleteProduct($product_id, $request);
 
-        $cartModel->saveCart($request);
         return redirect('cart');
     }
 
@@ -102,8 +97,9 @@ class ShoppingCartController extends Controller
      *
      * redirects back to the cart
      */
-    public function updateCartItem(Request $request) {
-        $cartModel = new ShoppingCartModel($request);
+    public function updateCartItem(Request $request)
+    {
+        $cart = new ShoppingCart($request);
         $product_id = isset($_GET['product_id']) ? $_GET['product_id'] : null;
         $new_quantity = isset($_GET['new_quantity']) ? intval($_GET['new_quantity']) : null;
 
@@ -111,9 +107,7 @@ class ShoppingCartController extends Controller
             return view('error');
         }
 
-        $cartModel->cart[$product_id]['quantity'] = $new_quantity;
-
-        $cartModel->saveCart($request);
+        $cart->changeProductCount($product_id, $new_quantity, $request);
 
         return redirect('cart');
     }

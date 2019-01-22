@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\ProductModel;
-use App\CategoryModel;
+use App\Product;
+use App\Category;
 
 class ProductDetailsController extends Controller
 {
@@ -28,7 +28,7 @@ class ProductDetailsController extends Controller
         $action = isset($_GET['action']) ? $_GET['action'] : null;//after adding to cart
         $quantity = isset($_GET['quantity']) ? $_GET['quantity'] : null;//after adding to cart
 
-    	$product = ProductModel::find($product_id);
+    	$product = Product::find($product_id);
 
     	return view('product_details', ['product' => $product, 'category_id' => $category_id, 'action' => $action, 'quantity' => $quantity]);
     }

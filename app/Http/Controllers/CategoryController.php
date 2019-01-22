@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\CategoryModel;
+use App\Category;
 
 class CategoryController extends Controller
 {
@@ -23,7 +23,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-    	$categories = CategoryModel::all();
+    	$categories = Category::all();
         
         return view('categories', ['categories' => $categories]);
     }
